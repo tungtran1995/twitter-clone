@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.next
+out
+.vite
+
+# Cache
+.cache
+.turbo
+.eslintcache
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# Other
+coverage
+*.min.js
+*.min.css
+public

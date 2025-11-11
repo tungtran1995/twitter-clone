@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+:root {
+  /* Twitter brand colors */
+  --twitter-blue: 29 161 242;
+  --twitter-blue-dark: 25 145 219;
+  --twitter-blue-light: 163 216 244;
+
+  /* Custom color palette */
+  --primary: 29 161 242;
+  --primary-dark: 25 145 219;
+  --primary-light: 163 216 244;
+
+  --secondary: 20 23 26;
+  --secondary-light: 101 119 134;
+
+  /* Status colors */
+  --success: 23 191 99;
+  --warning: 255 173 31;
+  --error: 224 36 94;
+  --info-light: 207 217 222;
+
+  /* Gray scale */
+  --gray-50: 250 251 252;
+  --gray-100: 247 249 250;
+  --gray-200: 225 232 237;
+  --gray-300: 204 214 221;
+  --gray-400: 170 184 194;
+  --gray-500: 101 119 134;
+  --gray-600: 91 112 131;
+  --gray-700: 20 23 26;
+
+  /* Background colors */
+  --bg-primary: 255 255 255;
+  --bg-secondary: 247 249 250;
+  --bg-hover: 247 249 250;
+
+  /* Text colors */
+  --text-primary: 20 23 26;
+  --text-secondary: 101 119 134;
+  --text-muted: 170 184 194;
+}
+
+/* Utility classes for custom colors */
+@layer utilities {
+  .bg-info-light {
+    background-color: rgb(var(--info-light));
+  }
+  .text-info-light {
+    color: rgb(var(--info-light));
+  }
+  .border-info-light {
+    border-color: rgb(var(--info-light));
+  }
+
+  .bg-twitter-blue {
+    background-color: rgb(var(--twitter-blue));
+  }
+  .text-twitter-blue {
+    color: rgb(var(--twitter-blue));
+  }
+  .border-twitter-blue {
+    border-color: rgb(var(--twitter-blue));
+  }
+
+  .bg-primary {
+    background-color: rgb(var(--primary));
+  }
+  .text-primary-custom {
+    color: rgb(var(--primary));
+  }
+  .border-primary {
+    border-color: rgb(var(--primary));
+  }
+}
