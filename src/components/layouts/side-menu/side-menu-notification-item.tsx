@@ -19,7 +19,7 @@ const SideMenuNotificationItem: React.FC<SideMenuNotificationItemProps> = ({
       {notificationsCount > 0 && (
         <span
           id="notification-count"
-          className="bg-primary absolute ml-2.5 h-[19] w-[19px] rounded-full text-center text-[13px] text-white"
+          className="bg-primary absolute top-1.25 ml-2.5 h-[19] w-[19px] rounded-full text-center text-[13px] text-white"
         >
           {notificationsCount}
         </span>

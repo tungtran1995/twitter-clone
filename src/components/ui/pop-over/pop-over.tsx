@@ -11,7 +11,7 @@ interface EmojiData {
   unified: string;
 }
 
-interface EmojiPopoverProps {
+interface PopoverProps {
   id?: string;
   open?: boolean;
   anchorEl?: HTMLElement | null;
@@ -29,7 +29,7 @@ interface EmojiPopoverProps {
   onSelect: (emoji: EmojiData) => void;
 }
 
-const EmojiPopover: React.FC<EmojiPopoverProps> = ({
+const Popover: React.FC<PopoverProps> = ({
   id,
   open = false,
   anchorEl,
@@ -89,4 +89,4 @@ const EmojiPopover: React.FC<EmojiPopoverProps> = ({
   );
 };
 
-export default EmojiPopover;
+export default Popover;

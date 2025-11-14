@@ -13,7 +13,7 @@ import { isWednesday } from 'date-fns/isWednesday';
 import { isYesterday } from 'date-fns/isYesterday';
 import { enUS } from 'date-fns/locale';
 
-import { HOUR_MINUTE_AMPM } from '@/constants/common';
+import { HOUR_MINUTE_AMPM } from '@/types';
 import type { PollResponse } from '@/types/tweet';
 
 export const formatDate = (date: Date): string => {

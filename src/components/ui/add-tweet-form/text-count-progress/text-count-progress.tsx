@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_TEXT_LENGTH } from '@/constants/common';
+import { MAX_TEXT_LENGTH } from '@/types/common';
 
 interface TextProgressProps {
   text: string;

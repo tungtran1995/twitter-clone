@@ -6,7 +6,7 @@ import { HOME_TWEET } from '@/constants/path';
 import { textFormatter } from '@/utils/text-formatter';
 
 interface TweetTextProps {
-  tweetId?: string;
+  tweetId?: number;
   text?: string;
 }
 

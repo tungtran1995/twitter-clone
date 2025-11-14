@@ -4,7 +4,7 @@ import Icon from '@/components/icons/icon';
 import { usePopup } from '@/hooks/usePopup';
 
 import ActionIconButton from '../../action-icon-button/action-icon-button';
-import EmojiPopover from '../../pop-over/pop-over';
+import Popover from '../../pop-over/pop-over';
 
 interface EmojiData {
   id: string;
@@ -38,7 +38,7 @@ const EmojiIconButton: FC<EmojiIconButtonProps> = ({
         onClick={handleOpenPopup}
         size="medium"
       />
-      <EmojiPopover
+      <Popover
         id={popoverId}
         open={openPopover}
         anchorEl={anchorEl}

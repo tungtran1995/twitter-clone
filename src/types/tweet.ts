@@ -3,7 +3,7 @@ import type { TweetListResponse } from './lists';
 import type { TaggedUserResponse } from './user';
 
 export interface TweetResponse {
-  id: string;
+  id: number;
   text: string;
   tweetType: TweetType;
   createdAt: string;
@@ -25,13 +25,13 @@ export interface TweetResponse {
   quoteTweet: QuoteTweetResponse;
   tweetList: TweetListResponse;
   poll: PollResponse;
-  retweetsCount: number;
+  reTweetsCount: number;
   likesCount: number;
   repliesCount: number;
   quotesCount: number;
   isDeleted: boolean;
   isTweetLiked: boolean;
-  isTweetRetweeted: boolean;
+  isTweetReTweeted: boolean;
   isUserFollowByOtherUser: boolean;
   isTweetDeleted: boolean;
   isTweetBookmarked: boolean;

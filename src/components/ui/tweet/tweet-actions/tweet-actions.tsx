@@ -6,7 +6,7 @@ import { TweetActionResults } from '@/types/tweet';
 import TweetActionResult from '../tweet-action-result/tweet-action-result';
 
 interface TweetActionProps {
-  tweetId?: string;
+  tweetId?: number;
   tweetType?: TweetType;
   activeTab?: number;
 }

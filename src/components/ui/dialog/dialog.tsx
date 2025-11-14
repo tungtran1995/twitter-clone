@@ -36,10 +36,7 @@ const Dialog: React.FC<DialogProps> = ({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div
-        className="fixed inset-0 bg-black/50"
-        onClick={onClose}
-      ></div>
+      <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
       <div className="z-10 mx-4 w-full max-w-lg transform rounded-lg bg-white shadow-lg">
         {title && (
           <div className="flex items-center justify-between border-b px-6 py-4">

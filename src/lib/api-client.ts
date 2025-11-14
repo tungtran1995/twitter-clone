@@ -1,5 +1,7 @@
-import { env } from '@/config/env';
 import Axios, { type InternalAxiosRequestConfig } from 'axios';
+
+import { env } from '@/config/env';
+import { paths } from '@/config/paths';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -15,11 +17,28 @@ export const api = Axios.create({
 });
 
 api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.request.use((config) => {
+  console.log('API Request:', {
+    method: config.method,
+    url: config.url,
+    data: config.data,
+  });
+  return config;
+});
 api.interceptors.response.use(
   (response) => {
-    return response.data;
+    console.log('API Response:', response.data);
+    return response;
   },
   (error) => {
+    console.log('API Error:', error);
+    if (error.response?.data === 401) {
+      const searchParams = new URLSearchParams();
+      const redirectTo =
+        searchParams.get('redirectTo') || window.location.pathname;
+      window.location.href = `${paths.home}?redirectTo=${redirectTo}`;
+    }
+
     return Promise.reject(error);
   },
 );

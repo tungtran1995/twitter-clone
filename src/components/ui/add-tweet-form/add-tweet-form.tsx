@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import { MAX_TEXT_LENGTH } from '@/constants/common';
+import { MAX_TEXT_LENGTH } from '@/types/common';
 import { useInputText } from '@/hooks/useInpuText';
 import type { BaseListResponse } from '@/types/lists';
 import type { QuoteTweetResponse, TweetResponse } from '@/types/tweet';

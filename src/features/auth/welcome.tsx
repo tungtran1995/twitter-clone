@@ -1,14 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import AuthModal from '@/components/ui/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button/button';
-import RegisterModal from '@/components/ui/register-modal/register-modal';
+import { HOME } from '@/constants/path';
+import { useUser } from '@/lib/auth';
 import { useUIStore } from '@/store';
 
 const Welcome: React.FC = () => {
-  const { registerModalOpen, openRegisterModal, closeRegisterModal } =
-    useUIStore();
+  const {
+    registerModalOpen,
+    openRegisterModal,
+    closeRegisterModal,
+    loginModalOpen,
+    openLoginModal,
+    closeLoginModal,
+  } = useUIStore();
+  const user = useUser();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo') || '/home';
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.data) {
+      navigate(redirectTo ? redirectTo : HOME, {
+        replace: true,
+      });
+    }
+  }, [user.data, navigate, redirectTo]);
+
+  const handleCloseAuthModal = () => {
+    closeRegisterModal();
+    closeLoginModal();
+  };
+
+  const authModalVisible = registerModalOpen || loginModalOpen;
+  const authModalMode = registerModalOpen ? 'register' : 'login';
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -106,18 +134,23 @@ const Welcome: React.FC = () => {
               <h3 className="mb-5 text-lg font-bold text-black">
                 Already have an account?
               </h3>
-              <Link to="/login">
-                <Button className="w-full rounded-full border border-gray-400 bg-transparent py-3 font-bold text-black hover:bg-blue-50">
-                  Sign in
-                </Button>
-              </Link>
+              <Button
+                className="w-full rounded-full border border-gray-400 bg-transparent py-3 font-bold text-black hover:bg-blue-50"
+                onClick={openLoginModal}
+              >
+                Sign in
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Register Modal */}
-      <RegisterModal visible={registerModalOpen} onClose={closeRegisterModal} />
+      {/* Auth Modal */}
+      <AuthModal
+        visible={authModalVisible}
+        onClose={handleCloseAuthModal}
+        initialMode={authModalMode}
+      />
     </div>
   );
 };

@@ -1,5 +1,63 @@
 @import 'tailwindcss';
 
+/* Utility classes for custom colors */
+@layer utilities {
+  .bg-info-light {
+    background-color: rgb(var(--info-light));
+  }
+  .text-info-light {
+    color: rgb(var(--info-light));
+  }
+  .border-info-light {
+    border-color: rgb(var(--info-light));
+  }
+
+  .bg-twitter-blue {
+    background-color: rgb(var(--twitter-blue));
+  }
+  .text-twitter-blue {
+    color: rgb(var(--twitter-blue));
+  }
+  .border-twitter-blue {
+    border-color: rgb(var(--twitter-blue));
+  }
+
+  .bg-primary {
+    background-color: rgb(var(--primary));
+  }
+  .text-primary-custom {
+    color: rgb(var(--primary));
+  }
+  .border-primary {
+    border-color: rgb(var(--primary));
+  }
+
+  .bg-default {
+    background-color: rgb(var(--bg-default));
+  }
+
+  .paper {
+    background-color: rgb(var(--bg-paper));
+  }
+
+  .text-primary-theme {
+    color: rgb(var(--text-primary));
+  }
+
+  .text-secondary-theme {
+    color: rgb(var(--text-secondary));
+  }
+
+  .border-divider {
+    border-color: rgb(var(--divider));
+  }
+
+  .border-surface {
+    border-color: rgb(var(--surface-border));
+  }
+}
+
+/* Default theme (light) - values use rgb components so we can compose with opacity */
 :root {
   /* Twitter brand colors */
   --twitter-blue: 29 161 242;
@@ -39,37 +97,65 @@
   --text-primary: 20 23 26;
   --text-secondary: 101 119 134;
   --text-muted: 170 184 194;
+
+  /* Typography */
+  --font-sans:
+    system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', sans-serif;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-full: 9999px;
+  --bg-default: rgb(255 255 255);
+  --bg-paper: rgb(255 255 255);
+  --text-primary: rgb(15 20 25);
+  --text-secondary: rgb(83 100 113);
+  --divider: rgb(239 243 244);
+  --surface-border: rgb(239 243 244);
 }
 
-/* Utility classes for custom colors */
-@layer utilities {
-  .bg-info-light {
-    background-color: rgb(var(--info-light));
-  }
-  .text-info-light {
-    color: rgb(var(--info-light));
-  }
-  .border-info-light {
-    border-color: rgb(var(--info-light));
-  }
+/* Dim theme */
+.theme-dim {
+  --bg-default: rgb(21 32 43);
+  --bg-paper: rgb(21 32 43);
+  --text-primary: rgb(255 255 255);
+  --text-secondary: rgb(136 153 166);
+  --divider: rgb(56 68 77);
+  --surface-border: rgb(56 68 77);
+}
 
-  .bg-twitter-blue {
-    background-color: rgb(var(--twitter-blue));
-  }
-  .text-twitter-blue {
-    color: rgb(var(--twitter-blue));
-  }
-  .border-twitter-blue {
-    border-color: rgb(var(--twitter-blue));
-  }
+/* Lights Out theme */
+.theme-lights-out {
+  --bg-default: rgb(0 0 0);
+  --bg-paper: rgb(0 0 0);
+  --text-primary: rgb(217 217 217);
+  --text-secondary: rgb(110 118 125);
+  --divider: rgb(47 51 54);
+  --surface-border: rgb(47 51 54);
+}
 
-  .bg-primary {
+/* Example component utilities using the CSS variables */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full px-4 py-2 font-bold;
     background-color: rgb(var(--primary));
+    color: rgb(var(--bg-default));
   }
-  .text-primary-custom {
-    color: rgb(var(--primary));
+
+  .card {
+    @apply bg-white; /* fallback for Tailwind's build; actual color from var below */
+    background-color: rgb(var(--bg-paper));
+    border: 1px solid rgb(var(--surface-border));
+    border-radius: var(--radius-md);
+    color: rgb(var(--text-primary));
+    padding: 1rem;
   }
-  .border-primary {
-    border-color: rgb(var(--primary));
+
+  .text-primary {
+    color: rgb(var(--text-primary));
+  }
+  .text-secondary {
+    color: rgb(var(--text-secondary));
   }
 }

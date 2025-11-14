@@ -14,14 +14,14 @@ const Icon: React.FC<IconProps> = ({
   ...rest
 }) => {
   const iconData = SVG_ICON_DATA[name];
+  const hasCustomSize = className.includes('w-') || className.includes('h-');
 
   if (!iconData) {
     console.error(`Icon "${name}" not found.`);
     return null;
   }
 
-  const sizeClasses = `w-${size} h-${size}`;
-
+  const sizeClasses = hasCustomSize ? '' : `w-${size} h-${size}`;
   return (
     <svg
       className={`${sizeClasses} ${className} inline-block`}

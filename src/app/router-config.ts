@@ -20,11 +20,6 @@ export const createAppRouter = (queryClient: QueryClient) => {
       path: '/',
       lazy: () => import('../features/auth/welcome').then(convert(queryClient)),
     },
-
-    {
-      path: '/login',
-      lazy: () => import('../features/auth/login').then(convert(queryClient)),
-    },
     // Main app routes - with layout and side menu
     {
       path: '/home',
