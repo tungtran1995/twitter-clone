@@ -14,7 +14,7 @@ const TagPeople: FC = (): ReactElement => {
       <ImageAction
         subtitle="Tag People"
         onClick={onOpenModalWindow}
-        icon={() => <Icon name="ProfileIcon" className="mr-2 h-4 w-4" />}
+        icon={<Icon name="ProfileIcon" className="mr-2 h-4 w-4" />}
       />
       <TagPeopleModal
         visible={visibleModalWindow}

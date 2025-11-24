@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import AuthModal from '@/components/ui/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button/button';
-import { HOME } from '@/constants/path';
-import { useUser } from '@/lib/auth';
 import { useUIStore } from '@/store';
 
 const Welcome: React.FC = () => {
@@ -17,18 +15,18 @@ const Welcome: React.FC = () => {
     openLoginModal,
     closeLoginModal,
   } = useUIStore();
-  const user = useUser();
+  // const user = useUser();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/home';
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user.data) {
-      navigate(redirectTo ? redirectTo : HOME, {
-        replace: true,
-      });
-    }
-  }, [user.data, navigate, redirectTo]);
+  // useEffect(() => {
+  //   if (user.data) {
+  //     navigate(redirectTo ? redirectTo : HOME, {
+  //       replace: true,
+  //     });
+  //   }
+  // }, [user.data, navigate, redirectTo]);
 
   const handleCloseAuthModal = () => {
     closeRegisterModal();

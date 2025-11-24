@@ -15,8 +15,7 @@ const ScheduleIconButton: FC<ScheduleIconButtonProps> = memo(
       <>
         <ActionIconButton
           actionText="Schedule"
-          icon={<Icon name="ScheduleIcon" />}
-          size="medium"
+          icon={<Icon name="ScheduleIcon" className="h-5 w-5" />}
           disabled={disabled}
         />
       </>

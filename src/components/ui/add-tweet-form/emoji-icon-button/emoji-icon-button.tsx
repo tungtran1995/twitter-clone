@@ -1,5 +1,8 @@
 import type { FC, ReactElement } from 'react';
 
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+
 import Icon from '@/components/icons/icon';
 import { usePopup } from '@/hooks/usePopup';
 
@@ -34,17 +37,24 @@ const EmojiIconButton: FC<EmojiIconButtonProps> = ({
       <ActionIconButton
         id="onClickAddEmoji"
         actionText="Emoji"
-        icon={<Icon name="EmojiIcon" />}
+        icon={<Icon name="EmojiIcon" className="h-5 w-5" />}
         onClick={handleOpenPopup}
-        size="medium"
       />
       <Popover
         id={popoverId}
         open={openPopover}
         anchorEl={anchorEl}
         onClose={handleClosePopup}
-        onSelect={addEmoji}
-      />
+      >
+        <Picker
+          data={data}
+          onEmojiSelect={(emoji: EmojiData) => {
+            addEmoji(emoji);
+          }}
+          emojiSize={24}
+          perLine={8}
+        />
+      </Popover>
     </>
   );
 };

@@ -14,7 +14,7 @@ const ProfileAvatar = memo((): ReactElement => {
   return (
     <Link to={`${PROFILE}/${myProfileId}`}>
       <img
-        className="h-[46px] w-[46px] rounded-full"
+        className="h-10 w-10 max-w-none! rounded-full"
         src={avatarUrl}
         alt={`avatar/${myProfileId}`}
       />

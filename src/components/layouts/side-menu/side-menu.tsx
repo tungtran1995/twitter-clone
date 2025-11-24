@@ -2,6 +2,7 @@ import type { FC, ReactElement } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
+import Icon from '@/components/icons/icon';
 import {
   BOOKMARKS,
   HOME,
@@ -26,18 +27,22 @@ import {
   NotificationsIconFilled,
   ProfileIcon,
   ProfileIconFilled,
-  TweetIcon,
 } from '@/icon';
 import type { IDisplayProps } from '@/types/ui';
 
 import SideMenuHomeItem from './side-menu-home-item';
 import SideMenuItem from './side-menu-item';
 import SideMenuMessageItem from './side-menu-message-item';
+import SideMenuMoreItem from './side-menu-more-item';
 import SideMenuNotificationItem from './side-menu-notification-item';
+import UserSideProfile from './user-side-profile';
 
 const SideMenu: FC<IDisplayProps> = (): ReactElement => {
+  const changeBackgroundColor = () => {};
+
+  const changeColorScheme = () => {};
   return (
-    <div className="r h-full border-r border-gray-200 bg-white p-4">
+    <div className="r fixed top-0 h-full bg-white p-4">
       <ul className="m-0 list-none space-y-2 p-0">
         <li>
           <NavLink
@@ -55,7 +60,7 @@ const SideMenu: FC<IDisplayProps> = (): ReactElement => {
                   className="h-8 w-8 [&>svg]:h-full [&>svg]:w-full"
                   style={{ width: '32px', height: '32px' }}
                 >
-                  {TweetIcon}
+                  <Icon name="XIcon" className="text-black" />
                 </div>
               </button>
             </div>
@@ -103,7 +108,12 @@ const SideMenu: FC<IDisplayProps> = (): ReactElement => {
           icon={ProfileIcon}
           filledIcon={ProfileIconFilled}
         />
+        <SideMenuMoreItem
+          changeColorScheme={changeColorScheme}
+          changeBackgroundColor={changeBackgroundColor}
+        />
       </ul>
+      <UserSideProfile />
     </div>
   );
 };

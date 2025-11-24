@@ -1,19 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
-import data from '@emoji-mart/data';
-import Picker from '@emoji-mart/react';
-
-interface EmojiData {
-  id: string;
-  native: string;
-  name: string;
-  shortcodes: string;
-  unified: string;
-}
-
-interface PopoverProps {
-  id?: string;
-  open?: boolean;
+export interface PopoverProps {
+  id: string | undefined;
+  open: boolean;
   anchorEl?: HTMLElement | null;
   anchorOrigin?: {
     vertical: 'top' | 'bottom';
@@ -24,25 +13,26 @@ interface PopoverProps {
     horizontal: 'left' | 'center' | 'right';
   };
   onClose?: () => void;
-  emoji?: string;
-  set?: string;
-  onSelect: (emoji: EmojiData) => void;
+  children: React.ReactNode;
+  offset?: number; // khoảng cách từ anchorEl
 }
 
 const Popover: React.FC<PopoverProps> = ({
   id,
-  open = false,
+  open,
   anchorEl,
+  children,
   onClose,
-  onSelect,
+  offset = 8,
 }) => {
-  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
+  // Click outside
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent) => {
       if (
-        popoverRef.current &&
-        !popoverRef.current.contains(e.target as Node) &&
+        ref.current &&
+        !ref.current.contains(e.target as Node) &&
         anchorEl &&
         !anchorEl.contains(e.target as Node)
       ) {
@@ -51,40 +41,30 @@ const Popover: React.FC<PopoverProps> = ({
     };
 
     if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+      document.addEventListener('mousedown', handleClick);
+      return () => document.removeEventListener('mousedown', handleClick);
     }
   }, [open, anchorEl, onClose]);
 
-  if (!open) return null;
+  if (!open || !anchorEl) return null;
+
+  const rect = anchorEl.getBoundingClientRect();
 
   return (
     <div
       id={id}
-      ref={popoverRef}
+      ref={ref}
       style={{
         position: 'fixed',
-        top: anchorEl ? anchorEl.getBoundingClientRect().bottom + 8 : '50%',
-        left: anchorEl ? anchorEl.getBoundingClientRect().left : '50%',
-        transform: anchorEl ? 'none' : 'translate(-50%, -50%)',
-        zIndex: 1000,
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        top: rect.bottom + offset,
+        left: rect.left,
+        zIndex: 2000,
         background: '#fff',
+        borderRadius: 8,
+        boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
       }}
     >
-      <Picker
-        data={data}
-        onEmojiSelect={(emoji: EmojiData) => {
-          onSelect(emoji);
-          onClose?.();
-        }}
-        emojiSize={24}
-        perLine={8}
-      />
+      {children}
     </div>
   );
 };

@@ -10,6 +10,7 @@ interface ActionIconButtonProps {
   icon: React.ReactNode;
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
+  className?: string;
 }
 
 const ActionIconButton: FC<ActionIconButtonProps> = ({
@@ -17,8 +18,9 @@ const ActionIconButton: FC<ActionIconButtonProps> = ({
   onClick,
   actionText,
   icon,
-  size = 'small',
+  size = 'medium',
   disabled,
+  className,
 }): ReactElement => {
   const buttonRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +42,7 @@ const ActionIconButton: FC<ActionIconButtonProps> = ({
         icon={icon}
         size={size}
         actionText={actionText}
+        className={className}
       />
     </div>
   );

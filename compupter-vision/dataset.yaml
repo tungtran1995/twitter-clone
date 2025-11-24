@@ -1,8 +1,0 @@
-path: ./data
-train: images/train
-val: images/val
-test: images/test
-
-names:
-  0: without_helmet
-  1: with_helmet

@@ -39,7 +39,5 @@ export const useClickAway = (): UseClickAway => {
     };
   }, [onClickClose]);
 
-  // Trả về ref. TypeScript sẽ chấp nhận việc gán kiểu RefObject cho ref
-  // mặc dù nó được tạo ra với useRef (là MutableRefObject)
   return { open, onClickOpen, onClickClose, ref };
 };

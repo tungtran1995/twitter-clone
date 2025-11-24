@@ -1,12 +1,16 @@
 import type { FC, ReactElement } from 'react';
+import { useState } from 'react';
 
-import { MAX_TEXT_LENGTH } from '@/types/common';
+import { useCreateTweet } from '@/hooks/useCreateTweet';
 import { useInputText } from '@/hooks/useInpuText';
+import { MAX_TEXT_LENGTH } from '@/types/common';
 import type { BaseListResponse } from '@/types/lists';
 import type { QuoteTweetResponse, TweetResponse } from '@/types/tweet';
 
 // import GifImage from '../gif-image/gif-image';
+import LinearProgress from '../linear-progress/linear-progress';
 import { TextareaAutosize } from '../text-auto-size/text-auto-size';
+import AddTweetImage from './add-tweet-image/add-tweet-image';
 import EmojiIconButton from './emoji-icon-button/emoji-icon-button';
 import GifIconButton from './gif-icon-button/gif-icon-button';
 import PollIconButton from './polly-icon-button/polly-icon-button';
@@ -15,6 +19,7 @@ import ScheduleDateInfo from './schedule-date-info/schedule-date-info';
 import ScheduleIconButton from './schedule-icon-button/shedule-icon-button';
 import TextCountProgress from './text-count-progress/text-count-progress';
 import UploadImages from './upload-images/upload-images';
+import { useUploadImageStore } from './upload-images/upload-images-store';
 
 interface AddTweetFormProps {
   unsentTweet?: TweetResponse;
@@ -30,11 +35,6 @@ interface AddTweetFormProps {
   onCloseModal?: () => void;
 }
 
-interface ImageObj {
-  src: string;
-  file: File;
-}
-
 const AddTweetForm: FC<AddTweetFormProps> = ({
   unsentTweet: _unsentTweet,
   quoteTweet,
@@ -43,7 +43,7 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
   minRows = 1,
   tweetId: _tweetId,
   title = "What's happening?",
-  buttonName = 'Tweet',
+  buttonName = 'Post',
   addressUsername: _addressUsername,
   addressId: _addressId,
   onCloseModal: _onCloseModal = () => {},
@@ -51,10 +51,19 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
   const {
     text,
     handleChangeText,
-    setText: _setText,
-    addEmoji: _addEmoji,
-    textConverted: _textConverted,
+    setText,
+    addEmoji,
+    textConverted,
   } = useInputText();
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitProgress, setSubmitProgress] = useState(0);
+  
+  const images = useUploadImageStore((state) => state.images);
+  const getUploadedImageIds = useUploadImageStore((state) => state.getUploadedImageIds);
+  const isUploading = useUploadImageStore((state) => state.isUploading);
+  const clearImages = useUploadImageStore((state) => state.clearImages);
+  
   const gif = null;
   const pollData = {
     choice1: '',
@@ -63,32 +72,69 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
     choice4: '',
     duration: 1,
   };
-  const { addEmoji } = useInputText();
-
+  
   const visiblePoll = false;
-  const images: ImageObj[] = [];
-  // const gif:
-  //   | {
-  //       images: { downsized: GifImageResponse };
-  //     }
-  //   | undefined = undefined;
   const scheduledDate = null;
 
   const handleClickReplyTweet = () => {};
 
   const handleClickQuoteTweet = () => {};
 
-  const handleClickAddTweet = () => {};
+  const { mutateAsync: createTweet } = useCreateTweet();
+
+  const handleClickAddTweet = async () => {
+    // Check if images are still uploading
+    if (isUploading()) {
+      alert('Please wait for images to finish uploading');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitProgress(0);
+
+    try {
+      setSubmitProgress(30);
+
+      const imageIds = getUploadedImageIds();
+      
+      setSubmitProgress(60);
+
+      const payload = {
+        text: textConverted(),
+        imageIds,
+      };
+
+      await createTweet(payload);
+
+      setSubmitProgress(100);
+      setText('');
+      clearImages();
+      
+      setTimeout(() => {
+        _onCloseModal();
+        setSubmitProgress(0);
+      }, 300);
+    } catch (error) {
+      console.error('Failed to post tweet:', error);
+      alert('Failed to post tweet. Please try again.');
+      setSubmitProgress(0);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
+      {/* Progress bar - Twitter style */}
+      {isSubmitting && <LinearProgress value={submitProgress} color="blue" />}
+      
       <div className="flex w-full">
         <ProfileAvatar />
         <div className="ml-[15px] w-full">
           <ScheduleDateInfo />
           <TextareaAutosize
             onChange={handleChangeText}
-            className="w-full resize-none border-none bg-transparent text-inherit placeholder-gray-400 outline-none"
+            className="w-full resize-none border-none bg-transparent text-[20px] text-inherit placeholder-gray-400 outline-none"
             value={text}
             placeholder={
               visiblePoll ? 'Ask a question...' : title || "What's happening?"
@@ -96,6 +142,14 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
             minRows={minRows}
             maxRows={images?.length > 0 ? 1 : maxRows}
           />
+          <div className="pt-3">
+            <AddTweetImage />
+            {/* {gif && <GifImage gifImage={gif.images.downsized} removeButton />} */}
+            {/* {quoteTweet && <Quote quoteTweet={quoteTweet} />} */}
+            {/* {tweetList && <TweetListComponent tweetList={tweetList} />} */}
+            {/* <Poll /> */}
+          </div>
+          
         </div>
         <div>
           {/* <AddTweetImage /> */}
@@ -105,16 +159,10 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
           <Poll /> */}
         </div>
       </div>
-      {/* <div className={classes.formItems}>
-        <AddTweetImage />
-        {gif && <GifImage gifImage={gif.images.downsized} removeButton />}
-        {quoteTweet && <Quote quoteTweet={quoteTweet} />}
-        {tweetList && <TweetListComponent tweetList={tweetList} />}
-        <Poll />
-      </div>
-      <Reply isUnsentTweet={!!unsentTweet} /> */}
+
+      {/* <Reply isUnsentTweet={!!unsentTweet} /> */}
       <div className="flex items-center justify-between">
-        <div className="relative -left-[13px] mt-[10px] flex max-w-[450px] justify-between pt-[5px] pb-[5px] pl-[70px]">
+        <div className="relative -left-[13px] mt-2.5 flex max-w-[450px] justify-between pt-[5px] pb-[5px] pl-[70px]">
           <UploadImages />
           <GifIconButton />
           <PollIconButton
@@ -127,7 +175,7 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
         <div className="flex items-center">
           {text.length > 0 && <TextCountProgress text={text} />}
           <button
-            className="rounded-3xl bg-black px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+            className="rounded-3xl bg-black px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={
               buttonName === 'Reply'
                 ? handleClickReplyTweet
@@ -136,15 +184,13 @@ const AddTweetForm: FC<AddTweetFormProps> = ({
                   : handleClickAddTweet
             }
             disabled={
-              visiblePoll
-                ? !pollData.choice1 ||
-                  !pollData.choice2 ||
-                  !text ||
-                  text.length >= MAX_TEXT_LENGTH
-                : !gif && (!text || text.length >= MAX_TEXT_LENGTH)
+              isSubmitting ||
+              isUploading() ||
+              !text ||
+              text.length >= MAX_TEXT_LENGTH
             }
           >
-            {buttonName}
+            {isSubmitting ? 'Posting...' : buttonName}
           </button>
         </div>
       </div>

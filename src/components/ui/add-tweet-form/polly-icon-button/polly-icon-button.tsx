@@ -18,10 +18,9 @@ const PollIconButton: FC<PollIconButtonProps> = memo(
           <div>
             <ActionIconButton
               actionText="Poll"
-              icon={<Icon name="PollIcon" />}
+              icon={<Icon name="PollIcon" className="h-5 w-5" />}
               onClick={onClickOpenPoll}
               disabled={disabled}
-              size="medium"
             />
           </div>
         )}

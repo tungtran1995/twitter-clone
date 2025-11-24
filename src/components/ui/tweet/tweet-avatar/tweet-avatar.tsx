@@ -18,7 +18,7 @@ const TweetAvatar: React.FC<TweetAvatarProps> = ({
       <img
         src={src}
         alt={`avatar ${userId}`}
-        className="h-[46px] w-[46px] rounded-full object-cover"
+        className="h-10 w-10 rounded-full object-cover"
       />
     </Link>
   );

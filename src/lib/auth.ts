@@ -13,6 +13,8 @@ import { api } from './api-client';
 
 export const getUser = async (): Promise<AuthResponse> => {
   const response = await api.get('/auth/me');
+  console.log(response.data);
+  
   return response.data;
 };
 
@@ -63,11 +65,11 @@ const authConfig = {
   userFn: getUser,
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
-    return response.user;
+    return response;
   },
   registerFn: async (data: RegisterInput) => {
     const response = await registerWithEmailAndPassword(data);
-    return response.user;
+    return response;
   },
   logoutFn: logout,
 };
@@ -80,7 +82,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (!user.data) {
     return React.createElement(Navigate, {
-      to: '/login',
+      to: '/',
       replace: true,
     });
   }

@@ -9,10 +9,11 @@ import type { IDisplayProps } from '@/types/ui';
 import ActiveLink from '../ui/active-link/active-link';
 import SideMenu from './side-menu/side-menu';
 
-interface ContentLayout {
+interface MainLayout {
   children: React.ReactNode;
 }
-const ContentLayout: FC<ContentLayout & IDisplayProps> = ({
+
+const MainLayout: FC<MainLayout & IDisplayProps> = ({
   children,
   changeBackgroundColor,
   changeColorScheme,
@@ -20,14 +21,17 @@ const ContentLayout: FC<ContentLayout & IDisplayProps> = ({
   const location = useLocation();
 
   return (
-    <div className="mx-auto h-screen max-w-7xl px-4">
-      <div className="flex h-full gap-4">
-        <div className="w-[20%]">
-          <SideMenu
-            changeBackgroundColor={changeBackgroundColor}
-            changeColorScheme={changeColorScheme}
-          />
+    <div className="mx-[295px] h-full">
+      <div className="flex h-full">
+        <div className="w-[275px] border-r border-gray-200">
+          <div className="sticky top-0 h-screen">
+            <SideMenu
+              changeBackgroundColor={changeBackgroundColor}
+              changeColorScheme={changeColorScheme}
+            />
+          </div>
         </div>
+
         {location.pathname.includes('/message') ||
         location.pathname.includes(SETTINGS) ? (
           <div className="flex-1">{children}</div>
@@ -35,10 +39,7 @@ const ContentLayout: FC<ContentLayout & IDisplayProps> = ({
           <>
             <div className="flex-1">{children}</div>
             <div className="w-[300px]">
-              {/* <SideSearch />
-              {tweetImages.length > 0 && <ProfileImages />}
-              <Tags />
-              <Users /> */}
+              {/* Right column extras (search, tags, users, etc.) */}
               <div className="p-4">
                 <>
                   <ActiveLink url="/explore">TERM OF SERVICE</ActiveLink>
@@ -49,7 +50,6 @@ const ContentLayout: FC<ContentLayout & IDisplayProps> = ({
                   <ActiveLink url="/explore">ADS_INFO</ActiveLink>
                   <span className="pr-3 align-middle text-[13px] leading-4 font-normal text-gray-500 hover:underline">
                     MORE
-                    {/* {EditIcon} */}
                   </span>
                   <span className="pr-3 align-middle text-[13px] leading-4 font-normal text-gray-500">{`© ${getYear(Date.now())}`}</span>
                 </>
@@ -62,4 +62,4 @@ const ContentLayout: FC<ContentLayout & IDisplayProps> = ({
   );
 };
 
-export default ContentLayout;
+export default MainLayout;

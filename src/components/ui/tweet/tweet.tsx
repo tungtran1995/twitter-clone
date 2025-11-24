@@ -5,6 +5,7 @@ import { ReplyType } from '@/types';
 import type { TweetResponse } from '@/types/tweet';
 
 import QuoteIconButton from '../quote-icon-button/quote-icon-button';
+import ShareTweetIconButton from '../share-tweet-icon-button/share-tweet-icon-button';
 import TweetText from '../tweet-text/tweet-text';
 import LikeIconButton from './like-icon-button/like-icon-button';
 import ReplyIconButton from './reply-icon-button/reply-icon-button';
@@ -27,10 +28,24 @@ const Tweet: FC<TweetProps> = ({
 }): ReactElement => {
   const myProfileId = 1;
   const isUserCanReply =
-    tweet?.replyType === ReplyType.MENTION && myProfileId !== tweet?.author.id;
+    tweet?.replyType === ReplyType.MENTION && myProfileId !== tweet?.author?.id;
+
+  // Handle sending/error states
+  const sendingStatus = (tweet as any).sendingStatus;
+  const isSending = sendingStatus === 'sending';
+  const isError = sendingStatus === 'error';
 
   return (
-    <div className="relative cursor-pointer border-b border-gray-300 pt-3 pl-5 transition-colors hover:bg-gray-100">
+    <div 
+      className={`relative cursor-pointer border-t border-gray-300 pt-3 pr-4 pl-4 transition-colors hover:bg-gray-100 ${
+        isSending ? 'opacity-50' : ''
+      } ${isError ? 'border-l-4 border-l-red-500 bg-red-50' : ''}`}
+    >
+      {isError && (
+        <div className="mb-2 text-xs font-bold text-red-500">
+          Failed to send. Please try again.
+        </div>
+      )}
       <TweetActions
         tweetId={tweet?.id}
         tweetType={tweet?.tweetType}
@@ -38,16 +53,16 @@ const Tweet: FC<TweetProps> = ({
       />
       <div className="flex flex-1 items-start">
         <TweetAvatar
-          userId={tweet?.author.id}
-          src={tweet?.author.avatar ?? DEFAULT_PROFILE_IMG}
+          userId={tweet?.author?.id}
+          src={tweet?.author?.avatar ?? DEFAULT_PROFILE_IMG}
         />
-        <div className="ml-4 w-[500px] flex-1 pb-3">
+        <div className="ml-2 w-[500px] flex-1 pb-3">
           <div className="relative flex h-5 justify-between">
             <TweetHeader
-              userId={tweet?.author.id}
-              fullName={tweet?.author.fullName}
-              username={tweet?.author.username}
-              isPrivateProfile={tweet?.author.isPrivateProfile}
+              userId={tweet?.author?.id}
+              fullName={tweet?.author?.fullName}
+              username={tweet?.author?.username}
+              isPrivateProfile={tweet?.author?.isPrivateProfile}
               dateTime={tweet!.createdAt}
             />
             {/* <TweetActions tweetId={tweet!.id} /> */}
@@ -130,8 +145,8 @@ const Tweet: FC<TweetProps> = ({
               isTweetLiked={tweet?.isTweetLiked}
               likesCount={tweet?.likesCount}
             />
-            {/* <ShareTweetIconButton tweetId={tweet!.id} />
-            {myProfileId === tweet?.author.id && (
+            <ShareTweetIconButton tweetId={tweet!.id} />
+            {/* {myProfileId === tweet?.author.id && (
               <AnalyticsIconButton
                 tweetUserFullName={tweet?.author.fullName}
                 tweetUserName={tweet?.author.username}

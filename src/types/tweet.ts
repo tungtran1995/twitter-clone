@@ -97,3 +97,12 @@ export enum TweetActionResults {
   RETWEET = 'RETWEET',
   LIKE = 'LIKE',
 }
+
+export interface GiphyDataProps {
+  id: string;
+  title: string;
+  images: {
+    downsized: GifImageResponse;
+    downsized_still: GifImageResponse;
+  };
+}

@@ -29,7 +29,7 @@ const TweetImage: React.FC<TweetImageProps> = ({
     : { width: '100%', aspectRatio: '3 / 2' };
 
   return (
-    <div id="tweetImage">
+    <div id="tweetImage" className="mt-3">
       <Link to={`${MODAL}/${tweetId}`} state={{ background: location }}>
         <div
           style={wrapperStyle}
@@ -41,11 +41,12 @@ const TweetImage: React.FC<TweetImageProps> = ({
           <img
             className="h-full w-full object-cover"
             src={imageSrc}
-            alt={imageSrc || 'tweet image'}
+            alt="Tweet attachment"
             loading={isModal ? 'eager' : 'lazy'}
             decoding="async"
             fetchPriority={isModal ? 'high' : 'low'}
             onLoad={() => setLoaded(true)}
+            onError={(e) => console.error('❌ Image failed to load:', imageSrc, e)}
           />
         </div>
       </Link>

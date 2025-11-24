@@ -55,6 +55,10 @@
   .border-surface {
     border-color: rgb(var(--surface-border));
   }
+
+  .bg-twitter-black {
+    background-color: rgb(var(--text-primary));
+  }
 }
 
 /* Default theme (light) - values use rgb components so we can compose with opacity */
@@ -110,7 +114,7 @@
   --bg-default: rgb(255 255 255);
   --bg-paper: rgb(255 255 255);
   --text-primary: rgb(15 20 25);
-  --text-secondary: rgb(83 100 113);
+  --text-secondary-dark: rgb(239 241 242);
   --divider: rgb(239 243 244);
   --surface-border: rgb(239 243 244);
 }

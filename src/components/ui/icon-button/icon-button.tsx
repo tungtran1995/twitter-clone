@@ -8,6 +8,7 @@ interface IconButtonProps {
   icon: React.ReactNode;
   size?: 'small' | 'medium' | 'large';
   actionText?: string;
+  className?: string;
 }
 
 const IconButton = ({
@@ -16,11 +17,12 @@ const IconButton = ({
   icon,
   size = 'medium',
   actionText,
+  className,
 }: IconButtonProps) => {
   const [hover, setHover] = useState(false);
 
   const sizeClass =
-    size === 'small' ? 'w-7 h-7' : size === 'large' ? 'w-11 h-11' : 'w-9 h-9'; // medium default
+    size === 'small' ? 'w-5 h-5' : size === 'large' ? 'w-11 h-11' : 'w-9 h-9'; // medium default
 
   return (
     <div
@@ -35,7 +37,7 @@ const IconButton = ({
           disabled
             ? 'cursor-not-allowed bg-gray-200'
             : 'hover:bg-gray-100 active:bg-gray-200'
-        }`}
+        } ${className}`}
       >
         {icon}
       </button>
